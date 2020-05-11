@@ -1,0 +1,21 @@
+{
+  "name": "service-covid19-app",
+  "version": "1.0.0",
+  "description": "Service api rest to communicated my apps.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "node-env-file": "^0.1.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
