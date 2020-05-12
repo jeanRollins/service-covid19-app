@@ -13,6 +13,14 @@ const GetNoticeNews = async ( endpoint , sources ) => {
     return data.data
 }
 
+const GetWeather = async ( ) => {
+    const url   =  'http://api.meteored.cl/index.php?api_lang=cl&localidad=18578&affiliate_id=4b8k2pp4kocq&v=3.0'
+    const data  =  await axios.get(url)
+    return data.data
+}
+
+
+
 const originData = [
     {   
         name     : 'cnn-español' ,
@@ -50,25 +58,51 @@ const ReOrderNotice = (notices) => {
 
 function getDataNotice  () {
 
+    const noticesQuantity = [0,1]
+
     const fetch = async  () => {
-
         let notices = []
-
         for await ( let row of originData ){
             let response = await GetNoticeNews( row.endpoint , row.sources )
-            
-            notices.push(response.articles[0])
-            notices.push(response.articles[1])
-         
+            noticesQuantity.map( i => {
+                response.articles[i].dateFormat =  dateFormat( response.articles[i].publishedAt )
+                response.articles[i].lyrics     =  response.articles[i].author.substr(0,1).toUpperCase()
+                notices.push(response.articles[i])
+            })
         }
         return notices
     }
-    
-
     return fetch()
+}
+
+
+const months = [
+    'Enero'   , 
+    'Febrero' ,
+    'Marzo' ,
+    'Abril' ,
+    'Mayo'  ,
+    'Junio' , 
+    'Julio' ,
+    'Agosto'     ,
+    'Septiembre' ,
+    'Octubre'    ,
+    'Noviembre'  ,
+    'Diciembre'
+]
+
+const dateFormat = ( date) => {
+
+    const year = date.substr(0 , 4)
+    const monthInt = parseInt( date.substr(5 , 2) )
+    const month = months[monthInt-1]
+    const day = date.substr(8 , 2)    
+
+    return month + ' ' +  day + ', ' + year  
 }
 
 module.exports.GetNotices   =  GetNotices
 module.exports.GetDataCountriesInfected =  GetDataCountriesInfected
+module.exports.GetWeather =  GetWeather
 
 

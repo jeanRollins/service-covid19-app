@@ -46,6 +46,24 @@ app.get('/api/getCovidData' , (  req , res) => {
     return fetchApi()
 })
 
-app.listen( process.env.PORT || 7000, () => {
-    console.log('Status : server OK!' )
+app.get('/api/getWeather' , (  req , res) => {
+
+    const fetchApi = async () => {
+        
+        try {
+            const data = await covidData.GetWeather()
+            
+            res.send({
+                notices : data ,
+                status  : 200
+            })
+        } 
+        catch (error) {}
+    } 
+
+    return fetchApi()
+})
+
+app.listen( process.env.PORT || 3000, () => {
+    
 })
